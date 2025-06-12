@@ -1,17 +1,16 @@
-import { type Platform, useGames } from '@/hooks/UseGames';
+import { useGames } from '@/hooks/UseGames';
 import { SimpleGrid } from '@chakra-ui/react';
 import { GameCard } from '@/components/GameCard.tsx';
 import { GameCardSkeleton } from '@/components/GameCardSkeleton.tsx';
 import { GameCardContainer } from '@/components/GameCardContainer.tsx';
-import type { Genre } from '@/hooks/UseGenres.ts';
+import type { GameQuery } from '@/App.tsx';
 
 interface Props {
-  selectedGenre: Genre | null;
-  selectedPlatform: Platform | null;
+  gameQuery: GameQuery;
 }
 
-export const GameGrid = ({ selectedGenre, selectedPlatform }: Props) => {
-  const { data, error, isLoading } = useGames(selectedGenre, selectedPlatform);
+export const GameGrid = ({ gameQuery }: Props) => {
+  const { data, error, isLoading } = useGames(gameQuery);
   const skeletons: number[] = Array.from({ length: 6 }, (_, i) => i + 1);
 
   return (
