@@ -10,10 +10,11 @@ import {
 import { croppedImageUrl } from '@/services/image-utl.ts';
 
 interface Props {
+  selectedGenre: Genre | null;
   onSelectGenre: (genre: Genre) => void;
 }
 
-export const GenreList = ({ onSelectGenre }: Props) => {
+export const GenreList = ({ selectedGenre, onSelectGenre }: Props) => {
   const { data, error, isLoading } = useGenres();
 
   if (error) return <p>Error: {error}</p>;
@@ -31,6 +32,7 @@ export const GenreList = ({ onSelectGenre }: Props) => {
               src={croppedImageUrl(genre.image_background)}
             ></Image>
             <Button
+              fontWeight={genre.id === selectedGenre?.id ? 'bold' : 'normal'}
               fontSize="large"
               variant={'link'}
               onClick={() => onSelectGenre(genre)}
