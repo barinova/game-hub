@@ -1,4 +1,4 @@
-import { useData } from '@/hooks/UseData.ts';
+import { allGenres } from '@/data/genres.ts';
 
 export interface Genre {
   id: number;
@@ -6,4 +6,10 @@ export interface Genre {
   image_background: string;
 }
 
-export const useGenres = () => useData<Genre>('/genres');
+// export const useGenres = () => useData<Genre>('/genres');
+
+export const useGenres = () => ({
+  data: allGenres,
+  isLoading: false,
+  error: null,
+});
