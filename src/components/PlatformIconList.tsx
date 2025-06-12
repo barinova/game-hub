@@ -31,7 +31,7 @@ export const PlatformIconList = ({ platforms }: Props) => {
   };
 
   return (
-    <HStack paddingTop={4}>
+    <HStack padding={2}>
       {platforms?.map(platform => (
         <Icon
           key={platform.id}
