@@ -1,5 +1,7 @@
+import noImage from '../assets/no-image.jpg';
+
 export const croppedImageUrl = (url: string): string => {
-  if (!url) return '';
+  if (!url) return noImage;
 
   const target = '/media';
   const index = url.indexOf('media/') + target.length;
