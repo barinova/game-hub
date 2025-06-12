@@ -10,7 +10,7 @@ type Props = {
 
 export const GameCard = ({ game }: Props) => {
   return (
-    <Card borderRadius={8} overflow={'hidden'}>
+    <Card borderRadius={8} overflow={'hidden'} width={300}>
       <Image src={croppedImageUrl(game.background_image)} alt={game.name} />
       <CardBody>
         <Heading>{game.name}</Heading>
