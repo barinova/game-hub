@@ -1,6 +1,7 @@
 import { type Genre, useGenres } from '@/hooks/UseGenres.ts';
 import {
   Button,
+  Heading,
   HStack,
   Image,
   List,
@@ -22,26 +23,34 @@ export const GenreList = ({ selectedGenre, onSelectGenre }: Props) => {
   if (isLoading) return <Spinner></Spinner>;
 
   return (
-    <List>
-      {data.map(genre => (
-        <ListItem key={genre.id} paddingY={2}>
-          <HStack>
-            <Image
-              boxSize={8}
-              borderRadius={8}
-              src={croppedImageUrl(genre.image_background)}
-            ></Image>
-            <Button
-              fontWeight={genre.id === selectedGenre?.id ? 'bold' : 'normal'}
-              fontSize="large"
-              variant={'link'}
-              onClick={() => onSelectGenre(genre)}
-            >
-              {genre.name}
-            </Button>
-          </HStack>
-        </ListItem>
-      ))}
-    </List>
+    <>
+      <Heading fontSize={24} paddingBottom={4}>
+        Genres
+      </Heading>
+      <List>
+        {data.map(genre => (
+          <ListItem key={genre.id} paddingY={2}>
+            <HStack>
+              <Image
+                boxSize={8}
+                borderRadius={8}
+                objectFit="cover"
+                src={croppedImageUrl(genre.image_background)}
+              ></Image>
+              <Button
+                fontWeight={genre.id === selectedGenre?.id ? 'bold' : 'normal'}
+                fontSize="large"
+                variant={'link'}
+                whiteSpace="normal"
+                textAlign="left"
+                onClick={() => onSelectGenre(genre)}
+              >
+                {genre.name}
+              </Button>
+            </HStack>
+          </ListItem>
+        ))}
+      </List>
+    </>
   );
 };

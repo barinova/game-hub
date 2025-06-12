@@ -1,5 +1,3 @@
-// @flow
-import * as React from 'react';
 import type { Platform } from '@/hooks/UseGames.ts';
 import { HStack, Icon } from '@chakra-ui/react';
 import {
@@ -31,7 +29,7 @@ export const PlatformIconList = ({ platforms }: Props) => {
   };
 
   return (
-    <HStack padding={2}>
+    <HStack>
       {platforms?.map(platform => (
         <Icon
           key={platform.id}
