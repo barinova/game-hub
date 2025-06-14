@@ -6,9 +6,8 @@ import { useState } from 'react';
 import type { Genre } from '@/hooks/UseGenres.ts';
 import { PlatformSelector } from '@/components/PlatformSelector.tsx';
 import type { Platform } from '@/hooks/UseGames.ts';
-import { SortSelector } from '@/components/SortSelector.tsx';
-import { GameHeading } from '@/components/GameHeading.tsx';
 import { ToDoList } from '@/test/ToDoList.tsx';
+import { PostList } from '@/test/PostList.tsx';
 
 export interface GameQuery {
   genre: Genre | null;
@@ -22,6 +21,9 @@ function App() {
 
   return (
     <>
+      <h3>Posts</h3>
+      <PostList></PostList>
+      <h3>To Do List</h3>
       <ToDoList></ToDoList>
       {/*<Grid*/}
       {/*  templateAreas={{ base: `"nav" "main"`, lg: `"nav nav" "aside main"` }}*/}

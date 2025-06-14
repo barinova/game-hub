@@ -21,6 +21,7 @@ export const useToDos = (): { todos; error: Error; isLoading } => {
   } = useQuery<ToDo[], Error>({
     queryKey: ['todos'],
     queryFn: fetchTodos,
+    staleTime: 1000 * 60 * 10, // 10 seconds
   });
   return { todos, error, isLoading };
 };
