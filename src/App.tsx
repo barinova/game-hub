@@ -23,8 +23,8 @@ function App() {
     <>
       <h3>Posts</h3>
       <PostList></PostList>
-      <h3>To Do List</h3>
-      <ToDoList></ToDoList>
+      {/*<h3>To Do List</h3>*/}
+      {/*<ToDoList></ToDoList>*/}
       {/*<Grid*/}
       {/*  templateAreas={{ base: `"nav" "main"`, lg: `"nav nav" "aside main"` }}*/}
       {/*  templateColumns={{*/}
