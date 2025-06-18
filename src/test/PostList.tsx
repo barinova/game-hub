@@ -1,11 +1,13 @@
 import { usePosts } from '@/hooks/usePosts.ts';
-import { useState } from 'react';
 import { Button, HStack, List, ListItem } from '@chakra-ui/react';
+import React from 'react';
 
 export const PostList = () => {
   const pageSize = 10;
-  const [page, setPage] = useState(1);
-  const { posts, error, isLoading } = usePosts({ page, pageSize });
+  const { posts, error, isLoading, fetchNextPage, isFetchingNextPage } =
+    usePosts({
+      pageSize,
+    });
 
   if (isLoading) return <div>Loading...</div>;
 
@@ -16,24 +18,24 @@ export const PostList = () => {
   return (
     <>
       <List spacing="10px" paddingLeft="10px">
-        {posts?.map(post => (
-          <ListItem key={post.id}>
-            <h3>{post.title.toUpperCase()}</h3>
-            <p>{post.body}</p>
-          </ListItem>
+        {posts.pages.map((page, index) => (
+          <React.Fragment key={index}>
+            {page.map(post => (
+              <ListItem key={post.id}>
+                <h3>{post.title.toUpperCase()}</h3>
+              </ListItem>
+            ))}
+          </React.Fragment>
         ))}
       </List>
 
       <HStack spacing="20px" paddingTop="20px" paddingLeft="10px">
         <Button
           className="btn btn-primary"
-          disabled={page === 1}
-          onClick={() => setPage(page - 1)}
+          disabled={isFetchingNextPage}
+          onClick={() => fetchNextPage()}
         >
-          Previous
-        </Button>
-        <Button className="btn btn-primary" onClick={() => setPage(page + 1)}>
-          Next
+          {isFetchingNextPage ? 'Loading...' : 'Load More'}
         </Button>
       </HStack>
     </>
