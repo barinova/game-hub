@@ -16,6 +16,10 @@ const TodoForm = () => {
         savedToDos,
         ...(todos || []),
       ]);
+
+      if (ref?.current) {
+        ref.current.value = '';
+      }
     },
     onError: () => {},
   });
@@ -43,7 +47,9 @@ const TodoForm = () => {
           <input ref={ref} type="text" className="form-control" />
         </div>
         <div className="col">
-          <button className="btn btn-primary">Add</button>
+          <button className="btn btn-primary">
+            {addToDo.isPending ? 'Adding...' : 'Add'}
+          </button>
         </div>
       </form>
     </>
