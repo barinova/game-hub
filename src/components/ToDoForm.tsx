@@ -3,25 +3,45 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 import type { ToDo } from '@/hooks/useToDos.ts';
 
+interface AddToDoContext {
+  previousToDo: ToDo[];
+}
+
 const TodoForm = () => {
   const queryClinet = useQueryClient();
 
-  const addToDo = useMutation<ToDo, Error, ToDo>({
+  const addToDo = useMutation<ToDo, Error, ToDo, AddToDoContext>({
     mutationFn: (todo: ToDo) =>
       axios
         .post<ToDo>('https://jsonplaceholder.typicode.com/todos', todo)
         .then(res => res.data),
-    onSuccess: savedToDos => {
+    onSuccess: (savedToDo: ToDo, newToDo: ToDo) => {
+      queryClinet.setQueryData<ToDo[]>(['todos'], todos =>
+        todos?.map(todo => (todo === newToDo ? savedToDo : todo)),
+      );
+    },
+    onError: (error, newToDo, context?: AddToDoContext) => {
+      if (!context) {
+        return;
+      }
+
+      queryClinet.setQueryData<ToDo[]>(['todos'], context.previousToDo);
+    },
+    onMutate: (newToDo: ToDo) => {
+      const previousToDo =
+        queryClinet.getQueriesData<ToDo[]>(['todos'])[0]?.[1] || [];
+
       queryClinet.setQueryData<ToDo[]>(['todos'], todos => [
-        savedToDos,
+        newToDo,
         ...(todos || []),
       ]);
 
       if (ref?.current) {
         ref.current.value = '';
       }
+
+      return { previousToDo };
     },
-    onError: () => {},
   });
 
   const ref = useRef<HTMLInputElement>(null);
