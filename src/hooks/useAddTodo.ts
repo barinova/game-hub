@@ -1,14 +1,12 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import type { ToDo } from '@/hooks/useToDos.ts';
-import axios from 'axios';
 import { CACHE_KEYS_TODOS } from '@/consts.ts';
-import { ApiClient } from '@/services/api-client.ts';
+
+import { toDoClient } from '@/services/todoService.ts';
 
 interface AddToDoContext {
   previousToDo: ToDo[];
 }
-
-const toDoClient = new ApiClient<ToDo>('/todos');
 
 export const useAddToDo = (onAdd: () => void) => {
   const queryClient = useQueryClient();

@@ -1,16 +1,6 @@
-import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
 import { CACHE_KEYS_TODOS } from '@/consts.ts';
-import { ApiClient } from '@/services/api-client.ts';
-
-export interface ToDo {
-  userId: number;
-  id: number;
-  title: string;
-  completed: boolean;
-}
-
-const toDoClient = new ApiClient<ToDo>('/todos');
+import { toDoClient } from '@/services/todoService.ts';
 
 export const useToDos = (): { todos; error: Error; isLoading } => {
   const {
