@@ -6,41 +6,47 @@ import type { ToDo } from '@/hooks/useToDos.ts';
 const TodoForm = () => {
   const queryClinet = useQueryClient();
 
-  const addToDo = useMutation({
+  const addToDo = useMutation<ToDo, Error, ToDo>({
     mutationFn: (todo: ToDo) =>
       axios
         .post<ToDo>('https://jsonplaceholder.typicode.com/todos', todo)
         .then(res => res.data),
-    onSuccess: (savedToDos, newToDo) => {
+    onSuccess: savedToDos => {
       queryClinet.setQueryData<ToDo[]>(['todos'], todos => [
         savedToDos,
         ...(todos || []),
       ]);
     },
+    onError: () => {},
   });
 
   const ref = useRef<HTMLInputElement>(null);
 
   return (
-    <form
-      className="row mb-3"
-      onSubmit={event => {
-        event.preventDefault();
-        addToDo.mutate({
-          id: 0,
-          title: ref.current?.value || '',
-          completed: false,
-          userId: 1,
-        });
-      }}
-    >
-      <div className="col">
-        <input ref={ref} type="text" className="form-control" />
-      </div>
-      <div className="col">
-        <button className="btn btn-primary">Add</button>
-      </div>
-    </form>
+    <>
+      {addToDo.error && (
+        <div className="alert alert-danger">{addToDo.error.message}</div>
+      )}
+      <form
+        className="row mb-3"
+        onSubmit={event => {
+          event.preventDefault();
+          addToDo.mutate({
+            id: 0,
+            title: ref.current?.value || '',
+            completed: false,
+            userId: 1,
+          });
+        }}
+      >
+        <div className="col">
+          <input ref={ref} type="text" className="form-control" />
+        </div>
+        <div className="col">
+          <button className="btn btn-primary">Add</button>
+        </div>
+      </form>
+    </>
   );
 };
 
