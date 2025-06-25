@@ -1,7 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { GENRE_KEY } from '@/consts/consts.ts';
-import axios from 'axios';
-import { apiClient } from '@/services/api-client.ts';
+import { apiClient, type FetchResponse } from '@/services/api-client.ts';
 
 export interface Genre {
   id: number;
@@ -9,12 +8,8 @@ export interface Genre {
   image_background: string;
 }
 
-export interface GenreResponse {
-  results: Genre[];
-}
-
 const genreFn = async (): Promise<Genre[]> => {
-  return apiClient.get<GenreResponse>('/genres').then(res => {
+  return apiClient.get<FetchResponse<Genre>>('/genres').then(res => {
     return res.data?.results || [];
   });
 };
