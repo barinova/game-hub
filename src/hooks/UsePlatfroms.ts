@@ -1,4 +1,6 @@
-import { useData } from '@/hooks/UseData.ts';
+import { apiClient } from '@/services/api-client.ts';
+import { useQuery } from '@tanstack/react-query';
+import { PLATFORM_KEY } from '@/consts/consts.ts';
 
 interface Platform {
   id: number;
@@ -6,4 +8,23 @@ interface Platform {
   slug: string;
 }
 
-export const usePlatforms = () => useData<Platform>('/platforms/lists/parents');
+const platformsFn = async (): Promise<Platform[]> => {
+  return apiClient
+    .get('platforms/lists/parents')
+    .then(res => res.data?.results || []);
+};
+
+export const usePlatforms = () => {
+  const {
+    data: platforms,
+    error,
+    isLoading,
+  } = useQuery<Platform[]>({
+    queryKey: PLATFORM_KEY,
+    queryFn: platformsFn,
+    staleTime: 1000 * 60 * 10,
+  });
+
+  return { platforms, error, isLoading };
+};
+// export const usePlatforms = () => useData<Platform>('/platforms/lists/parents');

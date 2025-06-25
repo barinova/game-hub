@@ -12,13 +12,13 @@ export const PlatformSelector = ({
   selectedPlatform,
   onSelectPlatform,
 }: Props) => {
-  const { data, error } = usePlatforms();
+  const { platforms, error } = usePlatforms();
 
   if (error) return <p>Error</p>;
   return (
     <Menu>
       <MenuList>
-        {data.map(platform => (
+        {platforms?.map(platform => (
           <MenuItem
             key={platform.id}
             onClick={() => onSelectPlatform(platform)}
