@@ -17,7 +17,7 @@ export const useGenres = (): { genres; error; isLoading } => {
     isLoading,
   } = useQuery<Genre[], Error>({
     queryKey: GENRE_KEY,
-    queryFn: () => apiClient.getAll(),
+    queryFn: () => apiClient.getAll().then(data => data?.results),
     staleTime: 1000 * 60 * 10,
   });
   return { genres, error, isLoading };

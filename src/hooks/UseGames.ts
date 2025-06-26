@@ -1,8 +1,8 @@
 import type { GameQuery } from '@/App.tsx';
-import { useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import { GAME_KEY } from '@/consts/consts.ts';
 import type { Platform } from '@/hooks/UsePlatfroms.ts';
-import { ApiClient } from '@/services/api-client.ts';
+import { ApiClient, type FetchResponse } from '@/services/api-client.ts';
 
 export interface Game {
   id: number;
@@ -19,19 +19,29 @@ export const useGames = (gameQuery: GameQuery) => {
     data: games,
     error,
     isLoading,
-  } = useQuery<Game[], Error>({
+    fetchNextPage,
+    isFetchingNextPage,
+  } = useInfiniteQuery<FetchResponse<Game>, Error>({
     queryKey: [GAME_KEY, gameQuery],
-    queryFn: () =>
+    queryFn: ({ pageParam = 1 }) =>
       apiClient.getAll({
         params: {
           genres: gameQuery.genre?.id,
           parent_platforms: gameQuery.platform?.id,
           ordering: gameQuery.sortOrder,
           search: gameQuery.searchTerm,
+          page: pageParam,
+          page_size: gameQuery.pageSize,
         },
       }),
+    initialPageParam: 1,
     staleTime: 1000 * 60 * 10,
+    getNextPageParam: (lastPage: FetchResponse<Game>, allPages) => {
+      console.log('Last page:', lastPage, 'All pages:', allPages);
+      return lastPage.next ? allPages.length + 1 : undefined;
+    },
   });
 
-  return { games, error, isLoading };
+  console.log('Games fetched:', games);
+  return { games, error, isLoading, fetchNextPage, isFetchingNextPage };
 };

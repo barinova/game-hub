@@ -17,7 +17,7 @@ export const usePlatforms = () => {
     isLoading,
   } = useQuery<Platform[]>({
     queryKey: PLATFORM_KEY,
-    queryFn: () => apiClient.getAll(),
+    queryFn: () => apiClient.getAll().then(data => data?.results),
     staleTime: 1000 * 60 * 10,
   });
 
