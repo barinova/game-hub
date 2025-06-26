@@ -38,12 +38,10 @@ export const useGames = (gameQuery: GameQuery) => {
     initialPageParam: 1,
     staleTime: 1000 * 60 * 10,
     getNextPageParam: (lastPage: FetchResponse<Game>, allPages) => {
-      console.log('Last page:', lastPage, 'All pages:', allPages);
       return lastPage.next ? allPages.length + 1 : undefined;
     },
   });
 
-  console.log('Games fetched:', games);
   return {
     games,
     error,

@@ -1,7 +1,7 @@
 import { Button, Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/react';
 import { BiSolidChevronDown } from 'react-icons/bi';
-import { usePlatforms } from '@/hooks/UsePlatfroms.ts';
-import type { Platform } from '@/hooks/UseGames.ts';
+import { type Platform, usePlatforms } from '@/hooks/UsePlatfroms.ts';
+import { usePlatformById } from '@/hooks/usePlatform.ts';
 
 type Props = {
   selectedPlatformId?: number;
@@ -13,9 +13,7 @@ export const PlatformSelector = ({
   onSelectPlatform,
 }: Props) => {
   const { platforms, error } = usePlatforms();
-  const selectedPlatform = platforms?.find(
-    platform => platform.id === selectedPlatformId,
-  );
+  const { platform } = usePlatformById(selectedPlatformId);
 
   if (error) return <p>Error</p>;
   return (
@@ -34,7 +32,7 @@ export const PlatformSelector = ({
         as={Button}
         rightIcon={<BiSolidChevronDown></BiSolidChevronDown>}
       >
-        {selectedPlatform?.name || 'Platforms'}
+        {platform?.name || 'Platforms'}
       </MenuButton>
     </Menu>
   );

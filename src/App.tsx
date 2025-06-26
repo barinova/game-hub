@@ -3,9 +3,7 @@ import { NavBar } from '@/components/NavBar.tsx';
 import { GameGrid } from '@/components/GameGrid.tsx';
 import { GenreList } from '@/components/GenreList.tsx';
 import { useState } from 'react';
-import type { Genre } from '@/hooks/UseGenres.ts';
 import { PlatformSelector } from '@/components/PlatformSelector.tsx';
-import type { Platform } from '@/hooks/UseGames.ts';
 import { SortSelector } from '@/components/SortSelector.tsx';
 import { GameHeading } from '@/components/GameHeading.tsx';
 
@@ -55,7 +53,7 @@ function App() {
         </Show>
         <GridItem area="main">
           <Box paddingLeft={10}>
-            <GameHeading genreId={gameQuery.genreId}></GameHeading>
+            <GameHeading platformId={gameQuery.platformId}></GameHeading>
             <Flex gap={4}>
               <PlatformSelector
                 selectedPlatformId={gameQuery.platformId}
