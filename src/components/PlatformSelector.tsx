@@ -4,15 +4,18 @@ import { usePlatforms } from '@/hooks/UsePlatfroms.ts';
 import type { Platform } from '@/hooks/UseGames.ts';
 
 type Props = {
-  selectedPlatform: Platform | null;
+  selectedPlatformId?: number;
   onSelectPlatform: (platform: Platform) => void;
 };
 
 export const PlatformSelector = ({
-  selectedPlatform,
+  selectedPlatformId,
   onSelectPlatform,
 }: Props) => {
   const { platforms, error } = usePlatforms();
+  const selectedPlatform = platforms?.find(
+    platform => platform.id === selectedPlatformId,
+  );
 
   if (error) return <p>Error</p>;
   return (
