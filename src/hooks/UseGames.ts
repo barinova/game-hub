@@ -1,5 +1,5 @@
 import type { GameQuery } from '@/App.tsx';
-import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery } from '@tanstack/react-query';
 import { GAME_KEY } from '@/consts/consts.ts';
 import type { Platform } from '@/hooks/UsePlatfroms.ts';
 import { ApiClient, type FetchResponse } from '@/services/api-client.ts';
@@ -21,6 +21,7 @@ export const useGames = (gameQuery: GameQuery) => {
     isLoading,
     fetchNextPage,
     isFetchingNextPage,
+    hasNextPage,
   } = useInfiniteQuery<FetchResponse<Game>, Error>({
     queryKey: [GAME_KEY, gameQuery],
     queryFn: ({ pageParam = 1 }) =>
@@ -43,5 +44,12 @@ export const useGames = (gameQuery: GameQuery) => {
   });
 
   console.log('Games fetched:', games);
-  return { games, error, isLoading, fetchNextPage, isFetchingNextPage };
+  return {
+    games,
+    error,
+    isLoading,
+    fetchNextPage,
+    isFetchingNextPage,
+    hasNextPage,
+  };
 };
